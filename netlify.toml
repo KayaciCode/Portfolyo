@@ -1,0 +1,11 @@
+# netlify.toml
+
+# Netlify'a siteyi nasıl inşa edeceğini söyleyen komutlar
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Netlify Identity için yönlendirme kuralları
+[identity]
+  # Davet, şifre sıfırlama gibi tüm linklerin yönleneceği varsayılan sayfa
+  redirect = "/admin/"
