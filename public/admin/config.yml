@@ -1,0 +1,25 @@
+# public/admin/config.yml
+
+# Backend ayarları: Netlify ve GitHub ile nasıl konuşacağını belirtir
+backend:
+  name: git-gateway
+  branch: main # Değişikliklerin hangi dala kaydedileceği
+
+# Yüklenecek görsellerin nereye kaydedileceğini belirtir
+media_folder: "src/assets/images" # Kaynak kodundaki yeri
+public_folder: "/assets/images" # Sitedeki genel yolu
+
+# Yönetilecek içerik koleksiyonları
+collections:
+  # Blog yazıları için bir koleksiyon
+  - name: "blog" # Sistemin kullanacağı iç isim
+    label: "Blog Yazıları" # Yönetim panelinde görünecek etiket
+    folder: "src/content/blog" # Yeni yazıların .md dosyası olarak kaydedileceği klasör
+    create: true # Yeni yazı oluşturmaya izin ver
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}" # Dosya adını otomatik oluşturma formatı
+    fields: # Her yazı için panelde görünecek alanlar
+      - { label: "Başlık", name: "title", widget: "string" }
+      - { label: "Yayınlanma Tarihi", name: "pubDate", widget: "datetime" }
+      - { label: "Açıklama", name: "description", widget: "string" }
+      - { label: "Ana Görsel", name: "heroImage", widget: "image" }
+      - { label: "İçerik", name: "body", widget: "markdown" }
