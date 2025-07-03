@@ -45,21 +45,25 @@ const { title } = Astro.props;
 
     <slot />
 
-    <footer>
-        <div class="social-icons">
-            <a href="https://github.com" target="_blank" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            <a href="https://linkedin.com" target="_blank" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            <a href="https://twitter.com" target="_blank" class="social-icon" aria-label="X"><i class="fab fa-x-twitter"></i></a>
-            <a href="https://instagram.com" target="_blank" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-        </div>
-        <p class="copyright-text">Tasarım & Kodlama [Adınız Soyadınız] © 2025</p>
-    </footer>
+   </footer>
 
+<div id="lightbox">
+    <div class="lightbox-content">
+        <button id="close-lightbox" class="close-lightbox" aria-label="Kapat"><i class="fas fa-times"></i></button>
+        <img id="lightbox-img" src="" alt="Proje Detay Resmi">
+        <h2 id="lightbox-title"></h2>
+        <p id="lightbox-description"></p>
+        <div class="lightbox-links">
+            <a id="lightbox-link-demo" href="#" target="_blank" class="contact-button"><i class="fas fa-globe"></i> Canlı Demo</a>
+            <a id="lightbox-link-code" href="#" target="_blank" class="contact-button secondary"><i class="fab fa-github"></i> Kodu İncele</a>
+        </div>
+    </div>
+</div>
+
+</body>
     <div id="lightbox">
         </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script is:inline src="/src/scripts/script.js"></script> </body>
+    <script src="/src/scripts/script.js"></script>
+</body> </body>
 </html>

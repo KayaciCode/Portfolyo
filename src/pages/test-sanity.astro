@@ -1,0 +1,14 @@
+---
+// src/pages/test-sanity.astro
+import { client } from '../lib/sanityClient';
+
+// Sanity'den tüm postları çekmek için GROQ sorgusu
+const query = '*[_type == "post"]'; 
+const posts = await client.fetch(query);
+---
+
+<h1>Sanity Bağlantı Testi</h1>
+<p>Aşağıda Sanity'den çekilen verileri görüyorsanız, bağlantı başarılıdır!</p>
+<p>Eğer boş bir `[]` görüyorsanız, henüz hiç yazı yayınlamamışsınız demektir. Bu da normaldir.</p>
+
+<pre>{JSON.stringify(posts, null, 2)}</pre>

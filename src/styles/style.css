@@ -55,12 +55,18 @@ h1, h2, h3 {
 /* Arka Plan ve İlerleme Çubuğu */
 #particles-js {
     position: fixed;
-    width: 100%;
-    height: 100%;
     top: 0;
     left: 0;
-    z-index: -1;
+    width: 100%;
+    height: 100%;
+    pointer-events: none; /* Kullanıcı etkileşimini engellemez */
+    z-index: 1; /* -1 yerine 0 kullan, içeriğin z-index’i yüksekse bu daha güvenli */
+}main, .content-section, header {
+    position: relative;
+    z-index: 1;
 }
+
+
 
 #scroll-progress-bar {
     position: fixed;
@@ -169,16 +175,9 @@ main {
     padding: 0 5%;
 }
 
+/* DÜZELTME: .content-section'dan animasyonla ilgili opacity ve transform kaldırıldı. */
 .content-section {
     padding: 100px 0;
-    opacity: 0; /* Animasyon için başlangıç durumu */
-    transform: translateY(30px); /* Animasyon için başlangıç durumu */
-}
-
-.content-section.visible {
-    opacity: 1;
-    transform: translateY(0);
-    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
 .section-title {
@@ -484,7 +483,8 @@ footer {
     display: flex;
     gap: 1rem;
     flex-wrap: wrap;
-}/* ==============================================
+}
+/* ==============================================
    5. İLETİŞİM FORMU STİLLERİ
    ============================================== */
 .contact-form {
@@ -530,7 +530,8 @@ footer {
 #form-status {
     font-weight: 500;
     transition: color 0.3s ease;
-}/* ==============================================
+}
+/* ==============================================
    6. CV İNDİRME BUTONU STİLİ
    ============================================== */
 .cv-button {
@@ -553,7 +554,8 @@ footer {
 
 .cv-button i {
     margin-left: 0.5rem;
-}/* ==============================================
+}
+/* ==============================================
    7. BLOG BÖLÜMÜ STİLLERİ
    ============================================== */
 
@@ -693,4 +695,55 @@ nav a.active {
 
 .post-content code {
     font-family: 'Courier New', Courier, monospace;
+}
+/* ==============================================
+   8. GELİŞMİŞ ANİMASYONLAR (ÖZEL İMLEÇ)
+   ============================================== */
+
+/* Varsayılan fare imlecini gizle */
+body, a, button {
+    cursor: none;
+}
+
+.cursor-dot,
+.cursor-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    transform: translate(-50%, -50%); /* Ortalamak için */
+    border-radius: 50%;
+    z-index: 1100; /* Her şeyin üstünde olmalı */
+    pointer-events: none; /* Altındaki elementlere tıklanabilmesini sağlar */
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.cursor-dot {
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-color);
+}
+
+.cursor-outline {
+    width: 40px;
+    height: 40px;
+    border: 2px solid var(--accent-color);
+    transition-duration: 0.1s; /* Dış halkanın daha hızlı tepki vermesi için */
+}
+
+/* Linklerin üzerine gelince büyüme efekti */
+.cursor-outline.hover {
+    transform: translate(-50%, -50%) scale(1.5);
+    opacity: 0.5;
+}
+
+/* Dokunmatik ekranlarda özel imleci gizle */
+@media (pointer: coarse) {
+    .cursor-dot,
+    .cursor-outline {
+        display: none;
+    }
+    /* Dokunmatik cihazlarda normal imleci geri getir */
+    body, a, button {
+        cursor: initial;
+    }
 }

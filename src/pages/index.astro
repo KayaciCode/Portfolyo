@@ -1,6 +1,11 @@
 ---
-// src/pages/index.astro
+// src/pages/index.astro (Final Hali)
 import Layout from '../layouts/Layout.astro';
+import { client, urlFor } from '../lib/sanityClient';
+
+// Sanity'den en son 2 blog yazısını çekmek için sorgu
+const blogQuery = `*[_type == "post" && defined(slug.current) && defined(heroImage)] | order(pubDate desc)[0...2]`;
+const latestPosts = await client.fetch(blogQuery);
 ---
 <Layout title="[Adınız Soyadınız] | Kreatif Teknoloji Uzmanı">
   <main>
@@ -10,18 +15,105 @@ import Layout from '../layouts/Layout.astro';
     </section>
 
     <section id="about" class="content-section">
-        </section>
+      <h2 class="section-title">Hakkımda</h2>
+      <div class="about-content">
+          <div class="about-text">
+              <h3>Merhaba, ben [Adınız].</h3>
+              <p>Teknoloji ve tasarımın kesişim noktasında, kullanıcı dostu ve estetik açıdan etkileyici dijital ürünler yaratıyorum. Karmaşık problemleri basit ve zarif çözümlere dönüştürme tutkusuyla kod yazıyorum.</p>
+          </div>
+          <div class="about-image">
+              <img src="/profil-fotografi.jpg" alt="Profil Fotoğrafı"> </div>
+      </div>
+    </section>
 
     <section id="skills" class="content-section">
-        </section>
+        <h2 class="section-title">Yeteneklerim</h2>
+        <div class="skills-grid">
+            <div class="skill-card"><i class="fab fa-react"></i><h3>Frontend</h3><p>React, Next.js, GSAP</p></div>
+            <div class="skill-card"><i class="fas fa-server"></i><h3>Backend</h3><p>Node.js, Express, SQL</p></div>
+            <div class="skill-card"><i class="fas fa-tools"></i><h3>Araçlar</h3><p>Git, Docker, Figma</p></div>
+        </div>
+    </section>
 
     <section id="portfolio" class="content-section">
-        </section>
+        <h2 class="section-title">Çalışmalarım</h2>
+        <div class="portfolio-grid">
+            <div class="portfolio-card" 
+                 data-title="Proje Başlığı 1"
+                 data-image="https://via.placeholder.com/800x500/1a1a2e/00f2ea?text=Proje+1+Detay"
+                 data-description="Bu projenin çok daha uzun ve detaylı açıklaması burada yer alacak."
+                 data-link-demo="https://github.com"
+                 data-link-code="https://github.com">
+                <img src="https://via.placeholder.com/600x400/1a1a2e/00f2ea?text=Proje+1" alt="Proje 1">
+                <div class="card-content">
+                    <h3>Proje Başlığı 1</h3>
+                    <p>Projenin kısa açıklaması.</p>
+                    <div class="tech-tags"><span>React</span><span>Node.js</span></div>
+                    <a href="#" class="details-button"><i class="fas fa-search-plus"></i> Detayları Gör</a>
+                </div>
+            </div>
+            <div class="portfolio-card"
+                  data-title="Proje Başlığı 2"
+                  data-image="https://via.placeholder.com/800x500/1a1a2e/00f2ea?text=Proje+2+Detay"
+                  data-description="Bu ikinci projenin detaylı açıklaması."
+                  data-link-demo="https://github.com"
+                  data-link-code="https://github.com">
+                <img src="https://via.placeholder.com/600x400/1a1a2e/00f2ea?text=Proje+2" alt="Proje 2">
+                <div class="card-content">
+                    <h3>Proje Başlığı 2</h3>
+                    <p>Projenin kısa açıklaması.</p>
+                    <div class="tech-tags"><span>Next.js</span><span>GSAP</span></div>
+                    <a href="#" class="details-button"><i class="fas fa-search-plus"></i> Detayları Gör</a>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <section id="blog-preview" class="content-section">
-        </section>
+        <h2 class="section-title">Son Yazılarım</h2>
+        <div class="blog-preview-grid">
+          {latestPosts.map(post => (
+            <div class="post-preview-card">
+              <a href={`/blog/${post.slug.current}/`}>
+                <img 
+                  src={urlFor(post.heroImage).width(600).height(338).url()} 
+                  alt={post.title || 'Blog yazısı görseli'} 
+                  class="post-preview-image"
+                />
+              </a>
+              <div class="post-preview-content">
+                <h3 class="post-preview-title">
+                  <a href={`/blog/${post.slug.current}/`}>{post.title || 'Başlık Yok'}</a>
+                </h3>
+                <p class="post-preview-excerpt">{post.description || ''}</p>
+                <a href={`/blog/${post.slug.current}/`} class="read-more-button">
+                  Devamını Oku <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div style="text-align: center; margin-top: 3rem;">
+            <a href="/blog" class="contact-button">Tüm Yazıları Gör</a>
+        </div>
+    </section>
 
     <section id="contact" class="content-section">
-        </section>
+        <h2 class="section-title">İletişime Geçelim</h2>
+        <p class="contact-subtitle">Yeni bir proje fikriniz mi var? Birlikte harika işler yapabiliriz.</p>
+        <form id="contact-form" action="https://formspree.io/f/SENIN_FORM_ID'N" method="POST" class="contact-form">
+            <div class="form-group">
+                <input type="text" id="name" name="name" placeholder="Adınız" required>
+                <input type="email" id="email" name="email" placeholder="E-posta Adresiniz" required>
+            </div>
+            <div class="form-group">
+                <textarea id="message" name="message" placeholder="Mesajınız" rows="6" required></textarea>
+            </div>
+            <div class="form-submit-group">
+                <button type="submit" class="contact-button">MESAJ GÖNDER</button>
+                <p id="form-status"></p>
+            </div>
+        </form>
+    </section>
   </main>
 </Layout>

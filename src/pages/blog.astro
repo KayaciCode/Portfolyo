@@ -1,0 +1,39 @@
+---
+// src/pages/blog.astro (Düzeltilmiş Hali)
+// Make sure the path below matches the actual location of Layout.astro
+import Layout from '../layouts/Layout.astro';
+import { client, urlFor } from '../lib/sanityClient';
+
+// SADECE slug ve ana görseli olan postları, tarihe göre sıralı çek
+const query = `*[_type == "post" && defined(slug.current) && defined(heroImage)] | order(pubDate desc)`;
+const posts = await client.fetch(query);
+---
+<Layout title="Tüm Yazılar | Blog">
+  <main>
+    <section class="content-section" style="padding-top: 120px; opacity: 1; transform: none;">
+        <h2 class="section-title">Tüm Yazılar</h2>
+        <div class="blog-preview-grid">
+          {posts.map(post => (
+            <div class="post-preview-card">
+              <a href={`/blog/${post.slug.current}/`}>
+                <img 
+                  src={urlFor(post.heroImage).width(600).height(338).url()} 
+                  alt={post.title} 
+                  class="post-preview-image"
+                />
+              </a>
+              <div class="post-preview-content">
+                <h3 class="post-preview-title">
+                  <a href={`/blog/${post.slug.current}/`}>{post.title}</a>
+                </h3>
+                <p class="post-preview-excerpt">{post.description}</p>
+                <a href={`/blog/${post.slug.current}/`} class="read-more-button">
+                  Devamını Oku <i class="fas fa-arrow-right"></i>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+    </section>
+  </main>
+</Layout>
