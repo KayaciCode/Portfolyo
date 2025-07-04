@@ -100,6 +100,7 @@ header {
     font-size: 1.8rem;
     font-weight: 700;
     color: var(--accent-color);
+    text-decoration: none; 
 }
 
 header nav {
@@ -274,11 +275,12 @@ main {
 }
 
 /* Yetenekler ve Portfolyo Kartları */
-.skills-grid, .portfolio-grid {
+.skills-grid, .portfolio-grid, .blog-preview-grid {
     max-width: 1100px;
     margin: auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    /* DEĞİŞİKLİK BURADA: 320px -> 300px */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
 }
 
@@ -337,7 +339,7 @@ main {
     margin-top: 1rem;
     display: inline-block;
     color: var(--accent-color);
-    text-decoration: none;
+    text-decoration: none; 
     font-weight: 600;
 }
 
@@ -520,11 +522,14 @@ footer {
     box-shadow: 0 0 10px var(--shadow-color);
 }
 
+/* style.css dosyasında bu bölümü bul */
+
 .form-submit-group {
     display: flex;
     align-items: center;
     gap: 1.5rem;
     margin-top: 1rem;
+    justify-content: center; /* Bu satırı ekle */
 }
 
 #form-status {
@@ -746,4 +751,152 @@ body, a, button {
     body, a, button {
         cursor: initial;
     }
+}/* ==============================================
+   9. ÖZEL KAYDIRMA ÇUBUĞU STİLLERİ
+   ============================================== */
+
+/* Firefox için */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--primary-color);
+}
+
+/* Chrome, Edge, Safari ve diğerleri için */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--primary-color);
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color);
+  border-radius: 20px;
+  border: 3px solid var(--primary-color);
+}/* ==============================================
+   9. ÖZEL KAYDIRMA ÇUBUĞU STİLLERİ (Düzeltilmiş)
+   ============================================== */
+
+/* Firefox için - Doğrudan html elementine uyguluyoruz */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--primary-color);
+}
+
+/* Chrome, Edge, Safari için - body elementini hedefliyoruz */
+body::-webkit-scrollbar {
+  width: 12px; /* Biraz daha belirgin olması için genişliği artırdım */
+}
+
+body::-webkit-scrollbar-track {
+  background: var(--primary-color);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: var(--accent-color);
+  border-radius: 20px;
+  border: 3px solid var(--primary-color);
+}/* ==============================================
+   10. BLOG LİSTELEME SAYFASINA ÖZEL IZGARA
+   ============================================== */
+
+.blog-list-grid {
+    display: grid;
+    gap: 2rem;
+    /* Mobil cihazlarda varsayılan olarak tek sütun */
+    grid-template-columns: 1fr;
+}
+
+/* Tablet boyutundan (768px) itibaren 2 sütun */
+@media (min-width: 768px) {
+    .blog-list-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Geniş ekranlarda (1024px) 3 sütun */
+@media (min-width: 1024px) {
+    .blog-list-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}/* ==============================================
+   11. MOBİL UYUMLULUK VE HAMBURGER MENÜ
+   ============================================== */
+
+/* Header'daki sağ grubu hizalamak için */
+.header-right-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+/* Hamburger ve Kapatma Butonları */
+.hamburger-btn, .close-menu-btn {
+    display: none; /* Varsayılan olarak gizli */
+    background: none;
+    border: none;
+    color: var(--text-color);
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 110; /* Menünün üstünde kalması için */
+}
+
+/* Mobil Görünüm (992px ve altı) */
+@media (max-width: 992px) {
+    /* Normal navigasyonu gizle */
+    header nav {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 100%;
+        max-width: 320px; /* Menü genişliği */
+        height: 100vh;
+        background-color: var(--primary-color);
+        box-shadow: -10px 0 30px rgba(0,0,0,0.2);
+        
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 1.5rem;
+
+        /* Başlangıçta ekranın dışında */
+        transform: translateX(100%);
+        transition: transform 0.4s ease-in-out;
+    }
+
+    /* JavaScript ile body'e bu sınıf eklendiğinde menüyü içeri kaydır */
+    body.mobile-menu-open header nav {
+        transform: translateX(0);
+    }
+    
+    /* Menü linklerini mobil için düzenle */
+    header nav a {
+        font-size: 1.2rem;
+        padding: 0.5rem 1rem;
+    }
+
+    /* Hamburger ikonunu göster */
+    .hamburger-btn {
+        display: block;
+    }
+
+    /* Kapatma butonunu mobil menü içindeyken göster */
+    .close-menu-btn {
+        display: block;
+        position: absolute;
+        top: 1.5rem;
+        right: 1.5rem;
+        font-size: 2rem;
+    }
+    
+    /* Mobil menü açıkken arkadaki içeriğin kaymasını engelle */
+    body.mobile-menu-open {
+        overflow: hidden;
+    }
+}/* Kart başlıklarındaki linklerin alt çizgisini kaldırma */
+.post-preview-title a {
+    text-decoration: none;
+    color: inherit; /* Rengin, başlığın normal rengiyle aynı olmasını sağlar */
 }

@@ -1,6 +1,6 @@
 ---
 // src/layouts/Layout.astro
-import '../styles/style.css'; // Stil dosyamızı import ediyoruz
+import '../styles/style.css'; 
 
 const { title } = Astro.props;
 ---
@@ -10,7 +10,13 @@ const { title } = Astro.props;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{title}</title>
+
     
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    
+
+    <meta name="description" content="Mümin Kayacı'nın kişisel portfolyo sitesi. Web geliştirme, mobil uygulama ve yazılım güvenliği konularında projeler ve blog yazıları.">
+    <meta name="keywords" content="Mümin Kayacı, portfolyo, web geliştirme, mobil uygulama, yazılım güvenliği, blog, projeler">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -23,42 +29,73 @@ const { title } = Astro.props;
     <div id="scroll-progress-bar"></div>
     <div id="particles-js"></div>
 
-    <header>
-        <div class="logo">[A.S.]</div>
-        <nav>
+  <header>
+        <a href="/" class="logo">{"</M.K.>"}</a>
+
+      <nav id="main-nav">
+            <button id="close-menu-btn" class="close-menu-btn" aria-label="Menüyü Kapat">&times;</button>
+            
             <a href="/#about">Hakkımda</a>
             <a href="/#skills">Yetenekler</a>
             <a href="/#portfolio">Portfolyo</a>
             <a href="/#contact">İletişim</a>
             <a href="/blog">Blog</a>
-            <a href="/ozgecmis.pdf" class="cv-button" download="Adiniz_Soyadiniz_CV.pdf">CV İndir <i class="fas fa-download"></i></a>
+            
+            <a href="/ozgecmis (2).pdf" class="cv-button" download="Adiniz_Soyadiniz_CV.pdf">
+                CV İndir <i class="fas fa-download"></i>
+            </a>
         </nav>
-        <div class="theme-switch-wrapper">
-             <i class="fas fa-sun"></i>
-            <label class="theme-switch">
-                <input type="checkbox" id="theme-toggle">
-                <span class="slider round"></span>
-            </label>
-            <i class="fas fa-moon"></i>
+
+        <div class="header-right-group">
+            <div class="theme-switch-wrapper">
+                 <i class="fas fa-sun"></i>
+                <label class="theme-switch">
+                    <input type="checkbox" id="theme-toggle">
+                    <span class="slider round"></span>
+                </label>
+                <i class="fas fa-moon"></i>
+            </div>
+
+            <button id="hamburger-btn" class="hamburger-btn" aria-label="Menüyü Aç">
+                <i class="fas fa-bars"></i>
+            </button>
         </div>
     </header>
-
     <slot />
 
-   </footer>
+  <footer>
+        <div class="social-icons">
+            <a href="https://github.com/KayaciCode" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="GitHub">
+                <i class="fab fa-github"></i>
+            </a>
+            <a href="https://www.linkedin.com/in/m%C3%BCmin-kayac%C4%B1-019517333/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="LinkedIn">
+                <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="https://x.com/muminkayacii" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+                <i class="fab fa-twitter"></i>
+            </a><a href="https://www.instagram.com/muminkayacii/" target="_blank" rel="noopener noreferrer" class="social-icon" aria-label="Twitter">
+                <i class="fab fa-instagram"></i>
+            </a>
+            <a href="mailto:muminkayaci22@gmail.com" class="social-icon" aria-label="E-posta">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+        <div class="copyright-text">
+            <p>© {new Date().getFullYear()} [Mümin Kayacı]. Tüm Hakları Saklıdır.</p>
+        </div>
+    </footer>
 
 <div id="lightbox">
-    <div class="lightbox-content">
-        <button id="close-lightbox" class="close-lightbox" aria-label="Kapat"><i class="fas fa-times"></i></button>
-        <img id="lightbox-img" src="" alt="Proje Detay Resmi">
-        <h2 id="lightbox-title"></h2>
-        <p id="lightbox-description"></p>
-        <div class="lightbox-links">
-            <a id="lightbox-link-demo" href="#" target="_blank" class="contact-button"><i class="fas fa-globe"></i> Canlı Demo</a>
-            <a id="lightbox-link-code" href="#" target="_blank" class="contact-button secondary"><i class="fab fa-github"></i> Kodu İncele</a>
+        <div class="lightbox-content">
+            <button class="close-lightbox" aria-label="Kapat">&times;</button>
+            <img id="lightbox-img" src="" alt="Proje Detay Görseli">
+            <h2 id="lightbox-title"></h2>
+            <p id="lightbox-description"></p>
+            
+            <div id="lightbox-links" class="lightbox-links">
+                </div>
         </div>
     </div>
-</div>
 
 </body>
     <div id="lightbox">

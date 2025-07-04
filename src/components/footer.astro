@@ -1,0 +1,87 @@
+---
+// src/components/Footer.astro
+const currentYear = new Date().getFullYear();
+---
+
+<footer class="site-footer">
+    <div class="footer-container">
+        <div class="social-links">
+            <a href="https://github.com/senin-kullanici-adin" target="_blank" aria-label="GitHub">
+                <i class="fa-brands fa-github"></i>
+            </a>
+            <a href="https://linkedin.com/in/senin-kullanici-adin" target="_blank" aria-label="LinkedIn">
+                <i class="fa-brands fa-linkedin"></i>
+            </a>
+            <a href="https://twitter.com/senin-kullanici-adin" target="_blank" aria-label="Twitter">
+                <i class="fa-brands fa-twitter"></i>
+            </a>
+            <a href="mailto:senin-emailin@ornek.com" aria-label="Email">
+                <i class="fa-solid fa-envelope"></i>
+            </a>
+        </div>
+
+        <nav class="footer-nav">
+            <a href="#hero">Ana Sayfa</a>
+            <a href="#about">Hakkımda</a>
+            <a href="#portfolio">Portfolyo</a>
+            <a href="#contact">İletişim</a>
+        </nav>
+
+        <div class="footer-copyright">
+            <p>&copy; {currentYear} [Adınız Soyadınız]. Tüm Hakları Saklıdır.</p>
+        </div>
+    </div>
+</footer>
+
+<style>
+    .site-footer {
+        background-color: var(--primary-color);
+        color: var(--text-muted-color);
+        padding: 3rem 5%;
+        margin-top: 4rem; /* Sayfa içeriği ile arasında boşluk bırakır */
+        text-align: center;
+        border-top: 1px solid var(--card-border-color);
+    }
+
+    .footer-container {
+        max-width: 1100px;
+        margin: 0 auto;
+    }
+
+    .social-links {
+        margin-bottom: 1.5rem;
+    }
+
+    .social-links a {
+        color: var(--text-color);
+        font-size: 1.5rem; /* İkon boyutunu büyütür */
+        margin: 0 1rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+        display: inline-block; /* Transform için gerekli */
+    }
+
+    .social-links a:hover {
+        color: var(--accent-color);
+        transform: translateY(-3px); /* Hafif yukarı kayma efekti */
+    }
+
+    .footer-nav {
+        margin-bottom: 1.5rem;
+    }
+
+    .footer-nav a {
+        color: var(--text-muted-color);
+        text-decoration: none;
+        margin: 0 0.75rem;
+        transition: color 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+        color: var(--accent-color);
+    }
+
+    .footer-copyright p {
+        font-size: 0.9rem;
+        margin: 0;
+    }
+</style>

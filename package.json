@@ -1,7 +1,7 @@
 {
   "name": "yeni-portfolyo-sitem",
-  "type": "module",
   "version": "0.0.1",
+  "type": "module",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
@@ -9,13 +9,16 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@portabletext/to-html": "^2.0.14",
     "@sanity/client": "^7.6.0",
     "@sanity/image-url": "^1.1.0",
     "@tsparticles/basic": "^3.8.1",
     "@tsparticles/engine": "^3.8.1",
     "astro": "^5.10.2",
     "astro-portabletext": "^0.11.1",
+    "astro-sanity": "^1.1.7",
     "gsap": "^3.13.0",
+    "tsparticles": "^3.8.1",
     "tsparticles-slim": "^2.12.0",
     "typed.js": "^2.1.0"
   }

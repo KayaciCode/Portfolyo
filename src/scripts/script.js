@@ -1,10 +1,13 @@
-// src/scripts/script.js (Modern Hali)
+// src/scripts/script.js
 
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+// DEĞİŞİKLİK: GSAP ve ScrollTrigger'ı 'isimleriyle' (named import) içe aktarıyoruz.
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Diğer kütüphaneler
 import Typed from "typed.js";
 import { tsParticles } from "@tsparticles/engine";
-import { loadBasic } from "@tsparticles/basic";
+import { loadFull } from "tsparticles";
 
 // GSAP'e ScrollTrigger eklentisini tanıt
 gsap.registerPlugin(ScrollTrigger);
@@ -18,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
     initScrollProgressBar();
     initContactForm();
     initCustomCursor();
+    initMobileMenu();
     
     // Tema yüklendiğinde parçacıkları da yükle
     loadParticlesEngine().then(() => {
@@ -27,7 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
 // Parçacık motorunu bir kez yüklemek için
 async function loadParticlesEngine() {
-    await loadBasic(tsParticles);
+    await loadFull(tsParticles);
 }
 
 function initTheme() {
@@ -46,13 +50,13 @@ function initTheme() {
         body.classList.toggle('light-theme');
         const newTheme = body.classList.contains('light-theme') ? 'light' : 'dark';
         localStorage.setItem('theme', newTheme);
+        const H = tsParticles.dom();
+        if (H.length > 0) {
+            H[0].destroy();
+        }
         initParticles(newTheme);
     });
 }
-
-// initParticles fonksiyonunun YENİ ve GÜNCELLENMİŞ hali
-
-// initParticles fonksiyonunun Orijinal Ayarlara En Yakın Hali
 
 async function initParticles(theme) {
     const particlesEl = document.getElementById('particles-js');
@@ -67,82 +71,36 @@ async function initParticles(theme) {
     const particleColor = isLight ? '#007BFF' : '#00f2ea';
     const lineColor = isLight ? '#007BFF' : '#00f2ea';
     
-    const H = tsParticles.dom();
-    if (H.length > 0) {
-        H[0].destroy();
+    const existingParticles = tsParticles.dom();
+    if (existingParticles.length > 0) {
+        existingParticles[0].destroy();
     }
     
     await tsParticles.load({
         id: "particles-js",
         options: {
-            // Orijinal koda en sadık ayarlar
             particles: {
-                number: {
-                    value: 80,
-                    density: {
-                        enable: true,
-                        value_area: 800,
-                    },
-                },
-                color: {
-                    value: particleColor,
-                },
-                shape: {
-                    type: "circle",
-                },
-                opacity: {
-                    value: 0.5,
-                },
-                size: {
-                    value: 3,
-                    random: true, // Orijinalde bu true idi
-                },
-                links: {
-                    enable: true,
-                    distance: 150,
-                    color: lineColor,
-                    opacity: 0.4,
-                    width: 1,
-                },
-                move: {
-                    enable: true,
-                    speed: 4, // <-- HIZI ORİJİNAL HALİNE (4) GERİ GETİRDİK
-                    direction: "none",
-                    random: false,
-                    straight: false,
-                    outModes: {
-                        default: "out",
-                    },
-                },
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: particleColor },
+                shape: { type: "circle" },
+                opacity: { value: 0.5 },
+                size: { value: 3, random: true },
+                links: { enable: true, distance: 150, color: lineColor, opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2, direction: "none", random: false, straight: false, outModes: "out" },
             },
             interactivity: {
                 events: {
-                    onHover: {
-                        enable: true,
-                        mode: "repulse",
-                    },
-                    onClick: {
-                        enable: true,
-                        mode: "push",
-                    },
+                    onHover: { enable: true, mode: "repulse" },
+                    onClick: { enable: true, mode: "push" },
                 },
                 modes: {
-                    repulse: {
-                        distance: 100,
-                        duration: 0.4,
-                    },
-                    push: {
-                        quantity: 4, // Orijinaldeki "particles_nb"
-                    },
+                    repulse: { distance: 100, duration: 0.4 },
+                    push: { quantity: 4 },
                 },
             },
             retina_detect: true,
-            background: {
-                color: "transparent",
-            },
-            zIndex: {
-                value: -1,
-            },
+            background: { color: "transparent" },
+            zIndex: { value: 0 },
         },
     });
 }
@@ -155,9 +113,6 @@ function initTyped() {
         });
     }
 }
-
-// Diğer fonksiyonlar (initScrollAnimations, initLightbox vb.) daha önce yaptığımız gibi kalabilir,
-// ama emin olmak için tam ve çalışan halini aşağıya ekliyorum.
 
 function initScrollAnimations() {
     const sections = document.querySelectorAll('.content-section');
@@ -197,13 +152,98 @@ function initScrollProgressBar() {
 function initLightbox() {
     const lightbox = document.getElementById('lightbox');
     if (!lightbox) return;
-    // ... lightbox kodları eskisi gibi çalışır ...
+
+    const closeLightboxBtn = lightbox.querySelector('.close-lightbox');
+    const closeLightbox = () => lightbox.classList.remove('visible');
+
+    document.addEventListener('click', (event) => {
+        const detailsButton = event.target.closest('.details-button');
+        if (!detailsButton) return;
+
+        event.preventDefault();
+        const card = detailsButton.closest('.portfolio-card');
+        if (!card) return;
+
+        const title = card.dataset.title;
+        const image = card.dataset.image;
+        const description = card.dataset.description;
+        const linkDemo = card.dataset.linkDemo;
+        const linkCode = card.dataset.linkCode;
+
+        lightbox.querySelector('#lightbox-title').textContent = title;
+        lightbox.querySelector('#lightbox-img').src = image;
+        lightbox.querySelector('#lightbox-description').textContent = description;
+        
+        const linksContainer = lightbox.querySelector('#lightbox-links');
+        linksContainer.innerHTML = '';
+
+        if (linkDemo) {
+            const demoButton = document.createElement('a');
+            demoButton.href = linkDemo;
+            demoButton.target = '_blank';
+            demoButton.className = 'contact-button';
+            demoButton.innerHTML = '<i class="fas fa-external-link-alt"></i> Canlı Demo';
+            linksContainer.appendChild(demoButton);
+        }
+        if (linkCode) {
+            const codeButton = document.createElement('a');
+            codeButton.href = linkCode;
+            codeButton.target = '_blank';
+            codeButton.className = 'contact-button secondary';
+            codeButton.innerHTML = '<i class="fab fa-github"></i> Kodu Gör';
+            linksContainer.appendChild(codeButton);
+        }
+
+        lightbox.classList.add('visible');
+    });
+
+    closeLightboxBtn.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', (event) => {
+        if (event.target === lightbox) closeLightbox();
+    });
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape') closeLightbox();
+    });
 }
 
 function initContactForm() {
     const form = document.getElementById('contact-form');
     if (!form) return;
-    // ... form kodları eskisi gibi çalışır ...
+
+    const status = document.getElementById('form-status');
+    if (!status) return;
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+        const data = new FormData(event.target);
+        
+        try {
+            status.innerHTML = "Gönderiliyor...";
+            status.style.color = 'var(--text-muted-color)';
+            const response = await fetch(event.target.action, {
+                method: form.method,
+                body: data,
+                headers: { 'Accept': 'application/json' }
+            });
+            if (response.ok) {
+                status.innerHTML = "Teşekkürler! Mesajınız gönderildi.";
+                status.style.color = 'var(--accent-color)';
+                form.reset();
+            } else {
+                const responseData = await response.json();
+                if (Object.hasOwn(responseData, 'errors')) {
+                    status.innerHTML = responseData["errors"].map(error => error["message"]).join(", ");
+                } else {
+                    status.innerHTML = "Oops! Bir hata oluştu, mesaj gönderilemedi.";
+                }
+                status.style.color = '#ff4d4d';
+            }
+        } catch (error) {
+            status.innerHTML = "Oops! Bir hata oluştu, mesaj gönderilemedi.";
+            status.style.color = '#ff4d4d';
+        }
+    }
+    form.addEventListener("submit", handleSubmit);
 }
 
 function initCustomCursor() {
@@ -221,5 +261,30 @@ function initCustomCursor() {
     interactiveElements.forEach((el) => {
         el.addEventListener('mouseenter', () => cursorOutline.classList.add('hover'));
         el.addEventListener('mouseleave', () => cursorOutline.classList.remove('hover'));
+    });
+}function initMobileMenu() {
+    const hamburgerBtn = document.getElementById('hamburger-btn');
+    const closeMenuBtn = document.getElementById('close-menu-btn');
+    const nav = document.getElementById('main-nav');
+
+    if (!hamburgerBtn || !nav || !closeMenuBtn) {
+        return;
+    }
+
+    // Hamburger'a tıklayınca menüyü aç
+    hamburgerBtn.addEventListener('click', () => {
+        document.body.classList.add('mobile-menu-open');
+    });
+
+    // Kapatma butonuna tıklayınca menüyü kapat
+    closeMenuBtn.addEventListener('click', () => {
+        document.body.classList.remove('mobile-menu-open');
+    });
+
+    // Bir menü linkine tıklayınca da menüyü kapat (tek sayfa navigasyonu için kullanışlı)
+    nav.addEventListener('click', (event) => {
+        if (event.target.tagName === 'A') {
+            document.body.classList.remove('mobile-menu-open');
+        }
     });
 }
