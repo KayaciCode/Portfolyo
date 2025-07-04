@@ -899,4 +899,93 @@ body::-webkit-scrollbar-thumb {
 .post-preview-title a {
     text-decoration: none;
     color: inherit; /* Rengin, başlığın normal rengiyle aynı olmasını sağlar */
+}/* Ana blog listesi grid yapısı */
+.blog-list-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 2rem;
+    padding: 2rem 0;
+}
+
+/* Tek bir blog yazısı kartı */
+.post-preview-card {
+    background-color: var(--card-bg-color, #1a1a2e); /* CSS değişkeni veya varsayılan renk */
+    border-radius: 12px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--card-border-color, #2a2a4e);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Kartın tamamının tıklanabilir olması için link stili */
+.post-preview-card > a {
+    text-decoration: none;
+    color: inherit;
+    display: block; /* Linkin resim alanını doldurmasını sağlar */
+}
+
+/* Kartın üzerine gelindiğinde */
+.post-preview-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+/* Yazı önizleme resmi */
+.post-preview-image {
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Resimlerin oranını korur, bozulmayı önler */
+    object-fit: cover; /* Resmi alana sığdırır ve kırpar */
+    border-bottom: 1px solid var(--card-border-color, #2a2a4e);
+}
+
+/* Kartın içerik bölümü */
+.post-preview-content {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* İçeriğin kartın kalanını doldurmasını sağlar */
+}
+
+/* Yazı başlığı */
+.post-preview-title {
+    font-size: 1.3rem;
+    margin: 0 0 0.75rem 0;
+}
+
+.post-preview-title a {
+    text-decoration: none;
+    color: var(--text-light-color, #fff);
+    transition: color 0.2s ease;
+}
+
+.post-preview-title a:hover {
+    color: var(--accent-color, #00f2ea);
+}
+
+/* Yazı özeti */
+.post-preview-excerpt {
+    color: var(--text-muted-color, #c0c0d1);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0 0 1.5rem 0;
+    flex-grow: 1; /* Bu, butonu en alta iter */
+}
+
+/* "Devamını Oku" butonu */
+.read-more-button {
+    display: inline-block;
+    align-self: flex-start; /* Butonu sola yaslar */
+    text-decoration: none;
+    font-weight: 600;
+    color: var(--accent-color, #00f2ea);
+    transition: transform 0.2s ease;
+}
+
+.read-more-button:hover {
+    transform: translateX(5px);
+}
+
+.read-more-button .fa-arrow-right {
+    margin-left: 0.5em;
 }
